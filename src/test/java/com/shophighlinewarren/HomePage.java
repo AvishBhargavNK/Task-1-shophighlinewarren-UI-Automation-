@@ -15,10 +15,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 
 public class HomePage extends BaseClass {
-	
+	public HomePage(WebDriver driver) {
+        this.driver = driver;
+    }
+
 	final String URL = "https://www.shophighlinewarren.com/";
 	final String categoryURL = "https://www.shophighlinewarren.com/c/oil-gear-oil";
-	private String product = "PRIMPG80W90QT";
+	private String product = "PRIMPG80W9055";
 	private String initialDialog = "//div[@data-testid='FLYOUT']";
 	private String closeButton = "//button[@aria-label = 'Close dialog']";
 	private String browseCategory = "//a[@title='Browse By Category']";
@@ -55,7 +58,7 @@ public class HomePage extends BaseClass {
 	           WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
 		       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(initialDialog)));
 		       if( driver.findElement(By.xpath(closeButton)).isDisplayed())
-		       driver.findElement(By.xpath(closeButton)).click();
+		       driver.findElement(By.xpath(closeButton)).click();//closing the initial sign up pop-up
 		        
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -79,11 +82,11 @@ public class HomePage extends BaseClass {
            
            if(driver.findElement(By.xpath(oilandlubricantcategory)).isDisplayed())
            {
-               System.out.println("Category listing is visible");
+               System.out.println("oil and lubricant category listing is visible");
            assertEquals("Oil & Lubricants", driver.findElement(By.xpath(oilandlubricantcategory)).getText());
            }
                else {
-                   System.out.println("Category listing is not visible");
+                   System.out.println("oil and lubricant category listing  is not visible");
                }
            driver.findElement(By.xpath(gearoil)).click();
           WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
@@ -106,7 +109,7 @@ public class HomePage extends BaseClass {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
 			 wait.until(ExpectedConditions.elementToBeClickable(By.xpath(gearoilproduct)));
-			driver.findElement(By.xpath(gearoilproduct)).click();
+			driver.findElement(By.xpath(gearoilproduct)).click();//selecting a product
 		   
 			wait.until(ExpectedConditions.urlContains(product));		
 			
@@ -118,6 +121,8 @@ public class HomePage extends BaseClass {
 			
 			String price = driver.findElement(By.xpath(productprice)).getText();
 			assertEquals("Log In", price); //Price is not revealed until user login
+	      
+
 			
 			
 		} catch (Exception e) {
@@ -132,7 +137,7 @@ public class HomePage extends BaseClass {
 	
 	public static void main(String[] args) {
 		
-		HomePage home = new HomePage();
+		HomePage home = new HomePage(driver);
 		home.browsersetup();
 		home.homepageverification();
 		home.browsebycategory();
